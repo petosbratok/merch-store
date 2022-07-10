@@ -12,7 +12,7 @@ class Type(models.Model):
 class Good(models.Model):
     title = models.CharField(default='clothing item', max_length=100)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
-    photo = models.ImageField(null=True, blank=True,upload_to='post_pics')
+    photo = models.ImageField(default='изображение_2022-07-10_235015707',upload_to='merch_pics')
     price = models.DecimalField(default=30.00, max_digits=10, decimal_places=2)
     stock = models.IntegerField(default=1000)
     date_added = models.DateTimeField(default=timezone.now)
