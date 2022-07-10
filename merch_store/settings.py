@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -77,7 +78,7 @@ WSGI_APPLICATION = 'merch_store.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'shop',
+        'NAME': 'goods',
         'USER': 'postgres',
         'PASSWORD': os.environ.get('default_pass'),
         'HOST': 'localhost',
