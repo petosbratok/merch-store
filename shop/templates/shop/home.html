@@ -1,10 +1,20 @@
 {% extends "shop/base.html" %}
+{% load static %}
 
 {% block content %}
 <ul>
   {% for item in goods %}
-    <li><p>{{ item.title }}, {{ item.price }}, <img style="height: 150px" src="{{ item.photo.url }}" alt="photo">, {{ item.type.type }}</p></li>
-    <button type="button" onclick name="button"></button>
+    <li>
+      <p>{{ item.title }}, {{ item.price }}, <img style="height: 150px" src="{{ item.photo.url }}" alt="photo">, {{ item.type.type }},
+        {% if item.stock == 0 %}
+          sold out
+        {% endif %}
+      </p>
+    </li>
   {% endfor %}
 </ul>
 {% endblock %}
+
+{% block scripts %}
+  <script src="{% static "js/home.js" %}"></script>
+{% endblock scripts %}

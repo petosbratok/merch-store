@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Good, Type
 
-class Home(ListView):
+class HomeListView(ListView):
     model = Good
     template_name = 'shop/home.html'
     context_object_name = 'goods'
@@ -18,3 +18,7 @@ class Home(ListView):
         #         liked_ids.append(post.id)
         # context['liked_ids'] = liked_ids
         # return context
+
+class ItemDetailView(DetailView):
+    template_name = 'shop/item_detail.html'
+    model = Good
