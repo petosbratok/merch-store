@@ -7,6 +7,7 @@ total items: {{order.get_cart_length}}
   {% for item in goods %}
     <li>
       <p>{{ item.title }}, {{ item.price }}, <img style="height: 150px" src="{{ item.photo.url }}" alt="photo">, {{ item.type.type }},
+        <a href="product/{{ item.id }}">Link</a>
         {% if item.stock == 0 %}
           sold out
       </p>

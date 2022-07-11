@@ -51,7 +51,7 @@ class Order(models.Model):
 
     @property
     def get_cart_items(self):
-    	orderitems = self.orderitem_set.all()
+    	orderitems = self.orderitem_set.all().order_by('id')
     	return orderitems
 
     @property

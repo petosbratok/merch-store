@@ -65,12 +65,6 @@ class ItemDetailView(DetailView):
     template_name = 'shop/item_detail.html'
     model = Good
 
-class CartListView(ListView):
-    model = Good
-    template_name = 'shop/cart.html'
-    context_object_name = 'goods'
-    ordering = ['-date_added']
-
 def product(request, pk):
     product = Good.objects.get(id=pk)
 
@@ -101,6 +95,7 @@ def cart(request):
 		customer, created = Customer.objects.get_or_create(device=device)
 
 	order, created = Order.objects.get_or_create(customer=customer, complete=False)
+
 
 	context = {'order':order}
 	return render(request, 'shop/cart.html', context)

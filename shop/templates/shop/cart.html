@@ -4,13 +4,20 @@
 {% block content %}
   <ul>
     {% for item in order.get_cart_items %}
-    <li><p>{{ item.product.title }}, {{ item.product.price }}, <img style="height: 150px" src="{{ item.product.photo.url }}" alt="photo">, {{ item.product.type.type }}, quntity: {{ item.quantity }}</p></li>
+    <li id="item_{{ item.id }}"><p>
+      {{ item.product.title }}, {{ item.product.price }}, <img style="height: 150px" src="{{ item.product.photo.url }}" alt="photo">, {{ item.product.type.type }}, quntity: <span id="id{{ item.id }}_quantity">{{ item.quantity }}</span>
+      <a href="/product/{{ item.id }}">link</a>
+      <button type="button" onclick="increase({{ item.id }}, {{ item.product.price }})" name="button">increase</button>
+      <button type="button" onclick="decrease({{ item.id }}, {{ item.product.price }})" name="button">decrease</button>
+      <button type="button" onclick="delete_({{ item.id }}, {{ item.product.price }})" name="button">delete</button>
+    </p></li>
     {% endfor %}
 
   </ul>
-  Total:<strong> ${{order.get_cart_total|floatformat:2}}</strong>
-  Amount of items: <strong>{{order.get_cart_length}}</strong>
+  Total:<strong>$<span id="price">{{order.get_cart_total|floatformat:2}}</span></strong>
+  Amount of items: <strong><span id="count">{{order.get_cart_length}}</span></strong>
 {% endblock %}
 
 {% block scripts %}
+  <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
 {% endblock scripts %}
