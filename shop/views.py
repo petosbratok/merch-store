@@ -1,6 +1,49 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from .models import *
+
+class DeleteOrderItemAPI(APIView):
+    def get(self, request, pk, format=None):
+        order_item = get_object_or_404(OrderItem, id=pk)
+        deleted = False
+        if order_item:
+            order_item.delete()
+            deleted = True
+        data = {
+            'deleted': deleted,
+        }
+        return Response(data)
+
+class IncreaseOrderItemAPI(APIView):
+    def get(self, request, pk, format=None):
+        order_item = get_object_or_404(OrderItem, id=pk)
+        updated = False
+        if order_item:
+            print(order_item.quantity)
+            order_item.quantity += 1
+            order_item.save()
+            updated = True
+        data = {
+            'updated': updated,
+        }
+        return Response(data)
+
+class DecreaseOrderItemAPI(APIView):
+    def get(self, request, pk, format=None):
+        order_item = get_object_or_404(OrderItem, id=pk)
+        updated = False
+        if order_item:
+            order_item.quantity -= 1
+            order_item.save()
+            if order_item.quantity < 1:
+                order_item.delete()
+            updated = True
+        data = {
+            'updated': updated,
+        }
+        return Response(data)
 
 def home(request):
     context = {}
