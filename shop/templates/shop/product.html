@@ -2,13 +2,13 @@
 {% load static %}
 {% block content %}
 
+total items: {{order.get_cart_length}}
 <div class="row">
 	<div class="col-lg-6">
 		<img style="border:1px solid #888" src="{{product.imageURL}}">
 	</div>
 
 	<div style="padding:50px" class="col-lg-6">
-
 		<h3>{{product.title}}</h3>
     <img style="height: 150px" src="{{ product.photo.url }}" alt="photo">
 

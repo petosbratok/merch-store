@@ -71,11 +71,8 @@ def product(request, pk):
     if request.method == 'POST':
         product = Good.objects.get(id=pk)
         #Get user account information
-        try:
-        	customer = request.user.customer
-        except:
-        	device = request.COOKIES['device']
-        	customer, created = Customer.objects.get_or_create(device=device)
+        device = request.COOKIES['device']
+        customer, created = Customer.objects.get_or_create(device=device)
 
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
@@ -85,6 +82,11 @@ def product(request, pk):
         return redirect('cart')
 
     context = {'product':product}
+    device = request.COOKIES['device']
+    customer, created = Customer.objects.get_or_create(device=device)
+    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+
+    context['order'] = order
     return render(request, 'shop/product.html', context)
 
 def cart(request):
