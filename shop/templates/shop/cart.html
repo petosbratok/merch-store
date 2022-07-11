@@ -1,0 +1,16 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block content %}
+  <ul>
+    {% for item in order.get_cart_items %}
+    <li><p>{{ item.product.title }}, {{ item.product.price }}, <img style="height: 150px" src="{{ item.product.photo.url }}" alt="photo">, {{ item.product.type.type }}, quntity: {{ item.quantity }}</p></li>
+    {% endfor %}
+
+  </ul>
+  Total:<strong> ${{order.get_cart_total|floatformat:2}}</strong>
+  Amount of items: <strong>{{order.get_cart_length}}</strong>
+{% endblock %}
+
+{% block scripts %}
+{% endblock scripts %}

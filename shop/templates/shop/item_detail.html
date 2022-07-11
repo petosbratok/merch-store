@@ -2,5 +2,11 @@
 {% load static %}
 
 {% block content %}
-  <h1>hi</h1>
+  {{ object.title }}
+  <button style="width: 30px; height: 10px;" onclick="add_to_cart({{ object.id }})" type="button" name="button"></button>
+  {{ object.id }}
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static "js/item_detail.js" %}"></script>
 {% endblock %}
