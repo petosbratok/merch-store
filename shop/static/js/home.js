@@ -1,7 +1,7 @@
 $(window).scroll(function(){
+  var window_height = $(window).innerHeight()
 
   var a = 100;
-  var window_height = $(window).innerHeight()
   var pos = $(window).scrollTop();
   if(pos > a) {
       $("header").css({

@@ -1,0 +1,133 @@
+header{
+  background-color: black;
+}
+.item-block{
+  width: auto;
+  margin: 50px;
+  margin-left: 0;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+}
+img{
+  height: 80vh;
+}
+.image-container{
+  padding-left: 8vw;
+  background: linear-gradient(45deg, rgba(23,35,52,1) 23%, rgba(83,46,79,1) 79%, rgba(37,76,93,1) 93%);
+  border-radius: 30px;
+  padding-right: 40px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.info{
+  margin-left: 8vw;
+}
+.title{
+  font-size: 4em;
+}
+.type{
+  font-size: 2.5em;
+  color: #757575 !important;
+  font-style:italic;
+}
+.price{
+  margin-top: 50px;
+  font-size: 3em;
+  font-weight: 500;
+}
+input[type="number"] {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+  background: white;
+
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+.number-input {
+  margin-top: 20px;
+  background: white;
+  display: inline-flex;
+}
+
+.number-input,
+.number-input * {
+  box-sizing: border-box;
+}
+
+.number-input button {
+  outline:none;
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: none;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
+  margin: 0;
+  position: relative;
+  box-sizing: content-box;
+  border: 1px solid white;
+  transition-duration: .3s;
+}
+
+.number-input button:before,
+.number-input button:after {
+  display: inline-block;
+  position: absolute;
+  content: '';
+  width: 1rem;
+  height: 2px;
+  background-color: #212121;
+  transform: translate(-50%, -50%);
+  transition-duration: 0.2s;
+}
+.number-input button.plus:after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+.number-input input[type=number] {
+  font-family: inherit;
+  max-width: 5rem;
+  padding: .5rem;
+  border: none;
+  font-size: 2rem;
+  height: 3rem;
+  font-weight: bold;
+  text-align: center;
+  transition-duration: 0.2s;
+  pointer-events: none;
+}
+input[type=submit] {
+  display: block;
+  height: 48px;
+  width: 176px;
+  text-align: center;
+  margin-top: 30px;
+  font-size: 1.5em;
+  transition-duration: 0.2s;
+  color: white;
+  background-color: black;
+  border: 1px solid white;
+}
+input[type=submit]:hover{
+  /* font-size: 1.55em; */
+  cursor: pointer;
+  /* background: rgb(23, 35, 52); */
+}
+
+.number-input button:hover:before,
+.number-input button:hover:after{
+ background-color: white;
+}
+button:hover{
+  border: 1px solid white;
+  box-sizing: content-box;
+  background-color: black;
+}

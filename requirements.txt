@@ -1,1 +1,4 @@
-django-filter
+Django==3.1
+djangorestframework==3.12.2
+Pillow==8.1.2
+whitenoise==5.2.0
