@@ -5,7 +5,7 @@ from PIL import Image
 
 class Type(models.Model):
     type = models.CharField(default='no type', max_length=100)
-
+    generalType = models.CharField(default='shirt', max_length=100)
     def __str__(self):
         return self.type
 

@@ -49,6 +49,7 @@ def home(request):
     context = {}
     goods = Good.objects.all().order_by('-id')
     context['goods'] = goods
+
     try:
         customer = request.user.customer
     except:

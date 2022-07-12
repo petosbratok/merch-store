@@ -1,0 +1,78 @@
+header{
+  background: none;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in;
+}
+.intro{
+  background: url('/media/merch_pics/darkwaves.gif') no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  color: white;
+  margin-bottom: 50px;
+}
+.intro p{
+  font-weight: 500;
+  letter-spacing: 5px;
+  font-size: 5em;
+  padding-bottom: 30px;
+}
+main{
+  margin: 0;
+  /* color: black; */
+  /* background: white; */
+}
+main .goods{
+  padding-right: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 270px;
+}
+main .goods li{
+  list-style: none;
+  width: 50%;
+}
+main li p {
+  height: 100%;
+}
+.item-tile{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 30px;
+}
+.item-tile img{
+  height: 35vw;
+}
+.item-price{
+  margin-top: 10px;
+}
+.item-sold-out{
+  height: 30px;
+  min-width: 10px;
+}
+.filter{
+  font-size: 1.25em;
+  width: 270px;
+  padding-left: 30px;
+  padding-top: 50px;
+  position: absolute;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+}
+.filter li{
+  cursor: pointer;
+  list-style-type: none;
+  margin-bottom: 5px;
+}
+.filter span{
+  color: #aaa;
+  margin-bottom: 20px;
+}

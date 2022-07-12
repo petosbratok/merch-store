@@ -1,57 +1,46 @@
 {% extends "shop/base.html" %}
 {% load static %}
 
+{% block links %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
 {% block content %}
-total items: {{order.get_cart_length}}
-<ul>
-  {% for item in goods %}
-    <li>
-      <p>{{ item.title }}, {{ item.price }}, <img style="height: 150px" src="{{ item.photo.url }}" alt="photo">, {{ item.type.type }},
-        <a href="product/{{ item.id }}">Link</a>
-        {% if item.stock == 0 %}
-          sold out
+<div class="intro">
+  <p>The Shop.</p>
+</div>
+<div class="shop">
+  <div class="filter">
+    <span>FILTER BY PRODUCT</span>
+    <ul>
+      <li onclick="filter('good')">All products</li>
+      <li onclick="filter('sweatshirt')">Sweatshirts</li>
+      <li onclick="filter('shirt')">Shirts</li>
+      <li onclick="filter('hat')">Hats</li>
+    </ul>
+
+  </div>
+  <ul class="goods">
+    {% for item in goods %}
+    <li class="good {{ item.type.generalType}}">
+      <p>
+        <a href="product/{{ item.id }}" class="item-tile">
+          <img src="{{ item.photo.url }}" alt="photo">
+          <span type="{{ item.type }}" class="item-title">{{ item.title }}</span>
+          <span class="item-price">${{ item.price }}</span>
+          {% if item.stock == 0 %}
+          <span class="item-sold-out">sold out</span>
+          {% else %}
+          <span class="item-sold-out"></span>
+          {% endif %}
+        </a>
       </p>
-      {% endif %}
     </li>
-  {% endfor %}
-</ul>
+    {% endfor %}
+  </ul>
+</div>
 {% endblock %}
 
 {% block scripts %}
-  <script type="text/javascript">
-    function getCookie(name) {
-		    var cookieValue = null;
-		    if (document.cookie && document.cookie !== '') {
-		        var cookies = document.cookie.split(';');
-		        for (var i = 0; i < cookies.length; i++) {
-		            var cookie = cookies[i].trim();
-		            // Does this cookie string begin with the name we want?
-		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-		                break;
-		            }
-		        }
-		    }
-		    return cookieValue;
-		}
-
-
-		function uuidv4() {
-		  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-		    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-		    return v.toString(16);
-		  });
-		}
-
-
-
-
-		let device = getCookie('device')
-
-		if (device == null || device == undefined){
-			device = uuidv4()
-		}
-
-		document.cookie ='device=' + device + ";domain=;path=/"
-  </script>
+  <script type="text/javascript" src="{% static 'js/home.js' %}"></script>
 {% endblock scripts %}
