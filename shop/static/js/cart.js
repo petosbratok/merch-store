@@ -20,6 +20,7 @@ function increase(id, price){
 }
 
 function decrease(id, price){
+  let item_id = "#item_" + id
   var this_ = $(this)
   $.ajax({
     url: '/decrease-order-item/' + id,
@@ -34,9 +35,29 @@ function decrease(id, price){
 
 
       if ($(id_quantity).val() == '0'){
-        let item_id = "#item_" + id
-        $(item_id).hide()
+        $(item_id).addClass("hidden")
+        let deleted_item = document.getElementById(item_id)
+        let start = false
+        $(".item").each(function( index ) {
+          if ($(this).hasClass("hidden")){
+            start = true
+          } else {
+            if (start){
+              $(this).addClass("move-up")
+              $(this).on(
+                "animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd",
+                function() {
+                  $(this).removeClass("move-up");
+                  $(".hidden").remove()
+                }
+              );
+
+            }
+          }
+        });
       }
+
+
     }, error: function(error){
       console.log(error)
       console.log("error")
@@ -51,14 +72,34 @@ function delete_(id, price){
     method: "get",
     data: {},
     success: function(data){
-      let quantity = parseInt($('#id' + id + '_quantity').html())
+      let quantity = parseInt($('#id' + id + '_quantity').val())
       $('#count').text(parseInt($('#count').html()) - quantity)
       $('#price').text((parseFloat($('#price').html()) - quantity*price).toFixed(2))
       let item_id = "#item_" + id
-      $(item_id).hide()
+      $(item_id).addClass("hidden")
+      let deleted_item = document.getElementById(item_id)
+      let start = false
+      $(".item").each(function( index ) {
+        if ($(this).hasClass("hidden")){
+          start = true
+        } else {
+          if (start){
+            $(this).addClass("move-up")
+            $(this).on(
+              "animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd",
+              function() {
+                $(this).removeClass("move-up");
+                $(".hidden").remove()
+              }
+            );
+
+          }
+        }
+      });
     }, error: function(error){
       console.log(error)
       console.log("error")
+
     }
   })
 }

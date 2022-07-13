@@ -10,7 +10,7 @@
 <div class="cart">
   <ul>
     {% for item in order.get_cart_items %}
-    <li id="item_{{ item.id }}"><div class="cart-item">
+    <li class="item" id="item_{{ item.id }}"><div class="cart-item">
       <div class="image-container">
         <img src="{{ item.product.photo.url }}" alt="photo">
       </div>
@@ -27,8 +27,8 @@
           </div>
         </div>
         <div class="delete-and-price">
-          <p class="price">{{ item.product.price }}</p>
-          <button type="button" onclick="delete_({{ item.id }}, {{ item.product.price }})" name="button">delete</button>
+          <p class="price">${{ item.product.price }}</p>
+          <button class="remove" type="button" onclick="delete_({{ item.id }}, {{ item.product.price }})" name="button">Remove</button>
         </div>
 
         <!-- quantity: <span id="id{{ item.id }}_quantity">{{ item.quantity }}</span> -->
