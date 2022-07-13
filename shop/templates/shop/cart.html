@@ -1,21 +1,52 @@
 {% extends "shop/base.html" %}
 {% load static %}
 
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+<link rel="stylesheet" href="{% static 'css/cart-input.css' %}">
+{% endblock %}
+
 {% block content %}
+<div class="cart">
   <ul>
     {% for item in order.get_cart_items %}
-    <li id="item_{{ item.id }}"><p>
-      {{ item.product.title }}, {{ item.product.price }}, <img style="height: 150px" src="{{ item.product.photo.url }}" alt="photo">, {{ item.product.type.type }}, quantity: <span id="id{{ item.id }}_quantity">{{ item.quantity }}</span>
-      <a href="/product/{{ item.product.id }}">link</a>
-      <button type="button" onclick="increase({{ item.id }}, {{ item.product.price }})" name="button">increase</button>
-      <button type="button" onclick="decrease({{ item.id }}, {{ item.product.price }})" name="button">decrease</button>
-      <button type="button" onclick="delete_({{ item.id }}, {{ item.product.price }})" name="button">delete</button>
-    </p></li>
+    <li id="item_{{ item.id }}"><div class="cart-item">
+      <div class="image-container">
+        <img src="{{ item.product.photo.url }}" alt="photo">
+      </div>
+      <div class="content">
+        <div class="info">
+          <div>
+            <p class="title">{{ item.product.title }}</p>
+            <p class="type">{{ item.product.type.type }}</p>
+          </div>
+          <div class="number-input" >
+            <button onclick="decrease({{ item.id }}, {{ item.product.price }})" type="button" class="btn-left"></button>
+            <input class="quantity" min="1" max="{{item.product.stock}}" name="quantity" id="id{{ item.id }}_quantity" value="{{ item.quantity }}" type="number">
+            <button onclick="increase({{ item.id }}, {{ item.product.price }})" class="plus" type="button"></button>
+          </div>
+        </div>
+        <div class="delete-and-price">
+          <p class="price">{{ item.product.price }}</p>
+          <button type="button" onclick="delete_({{ item.id }}, {{ item.product.price }})" name="button">delete</button>
+        </div>
+
+        <!-- quantity: <span id="id{{ item.id }}_quantity">{{ item.quantity }}</span> -->
+        <!-- <a href="/product/{{ item.product.id }}">link</a> -->
+    </div></li>
     {% endfor %}
 
   </ul>
-  Total:<strong>$<span id="price">{{order.get_cart_total|floatformat:2}}</span></strong>
-  Amount of items: <strong><span id="count">{{order.get_cart_length}}</span></strong>
+  <div class="order">
+    <h2>Order summary</h2>
+    <div class="price-container">
+      <p>Total:<strong>$<span id="price">{{order.get_cart_total|floatformat:2}}</span></strong></p>
+    </div>
+    <div class="count-container">
+      <p>Amount of items: <strong><span id="count">{{order.get_cart_length}}</span></strong></p>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}

@@ -26,16 +26,16 @@ img{
   margin-left: 8vw;
 }
 .title{
-  font-size: 4em;
+  font-size: 3em;
 }
 .type{
-  font-size: 2.5em;
+  font-size: 2.25em;
   color: #757575 !important;
   font-style:italic;
 }
 .price{
   margin-top: 50px;
-  font-size: 3em;
+  font-size: 2.5em;
   font-weight: 500;
 }
 input[type="number"] {

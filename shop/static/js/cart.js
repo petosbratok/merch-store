@@ -7,8 +7,9 @@ function increase(id, price){
     success: function(data){
 
       let id_quantity = '#id' + id + '_quantity'
-      $(id_quantity).text(parseInt($(id_quantity).html()) + 1)
+      $(id_quantity).val(parseInt($(id_quantity).val()) + 1)
       $('#count').text(parseInt($('#count').html()) + 1)
+      console.log(price)
       $('#price').text((parseFloat($('#price').html()) + price).toFixed(2))
 
     }, error: function(error){
@@ -27,12 +28,12 @@ function decrease(id, price){
     success: function(data){
 
       let id_quantity = '#id' + id + '_quantity'
-      $(id_quantity).text(parseInt($(id_quantity).html()) - 1)
+      $(id_quantity).val(parseInt($(id_quantity).val()) - 1)
       $('#count').text(parseInt($('#count').html()) - 1)
       $('#price').text((parseFloat($('#price').html()) - price).toFixed(2))
 
 
-      if ($(id_quantity).html() == '0'){
+      if ($(id_quantity).val() == '0'){
         let item_id = "#item_" + id
         $(item_id).hide()
       }
