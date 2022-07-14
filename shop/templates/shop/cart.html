@@ -42,7 +42,9 @@
       <p class="subtotal">Subtotal</p>
       <p class="price-container"><span class="dollar-sign">$</span><span id="price">{{order.get_cart_total|floatformat:2}}</span></p>
     </div>
-    <button class="checkout-btn" name="button">Check Out</button>
+    <form action="/checkout">
+        <button style="width: 100%"  class="checkout-btn">Check Out</button>
+    </form>
     <!-- <div class="count-container">
       <p>Amount of items: <strong><span id="count">{{order.get_cart_length}}</span></strong></p>
     </div> -->

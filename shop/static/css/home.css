@@ -2,6 +2,7 @@ header{
   background: none;
   transition-duration: 0.2s;
   transition-timing-function: ease-in;
+  z-index: 2;
 }
 .intro{
   background: url('/media/merch_pics/darkwaves.gif') no-repeat;

@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'shop',
     'rest_framework',
     'django_filters',
+    'django_countries',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
