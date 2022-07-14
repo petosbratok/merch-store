@@ -52,7 +52,6 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .number-input {
   margin-top: 20px;
-  background: white;
   display: inline-flex;
 }
 
@@ -64,16 +63,17 @@ input[type=number]::-webkit-outer-spin-button {
 .number-input button {
   outline:none;
   -webkit-appearance: none;
-  background-color: transparent;
-  border: none;
+  border: 1px solid black;
   align-items: center;
   justify-content: center;
   width: 3rem;
   height: 3rem;
+  border: 1px solid black;
   cursor: pointer;
+  background-color: white;
   margin: 0;
   position: relative;
-  box-sizing: content-box;
+  box-sizing: border-box;
   border: 1px solid white;
   transition-duration: .3s;
 }
@@ -115,10 +115,13 @@ input[type=submit] {
   color: white;
   background-color: black;
   border: 1px solid white;
+  border-radius: 15px;
 }
 input[type=submit]:hover{
   /* font-size: 1.55em; */
   cursor: pointer;
+  color: black;
+  background-color: white;
   /* background: rgb(23, 35, 52); */
 }
 
@@ -128,6 +131,15 @@ input[type=submit]:hover{
 }
 button:hover{
   border: 1px solid white;
-  box-sizing: content-box;
   background-color: black;
+}
+.btn-left{
+  border-radius: 15px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.btn-right{
+  border-radius: 15px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }

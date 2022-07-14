@@ -47,9 +47,15 @@ ul{
   font-style:italic;
 }
 .price{
-  font-size: 1.5em;
+  font-size: 1.6em;
   font-weight: 500;
 }
+.dollar-sign-item{
+  font-weight: 500;
+  padding-right: 2px;
+  font-size: 0.8em;
+}
+
 .delete-and-price{
   padding: 0 30px;
   padding-bottom: 20px;
@@ -101,18 +107,59 @@ ul{
   display: flex;
   flex-direction: column;
   padding: 30px;
-  padding-right: 80px;
+  /* padding-right: 80px; */
   position: fixed;
   right: 0;
   width: 26vw;
-  height: 100vh;
+  /* height: 40vh; */
   background: white;
+  color: black;
+  /* border-bottom-right-radius: 30px; */
+  border-bottom-left-radius: 30px;
+}
+.price-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+#price{
+  font-size: 2.25em;
+  font-weight: 500;
+  letter-spacing: -1px;
+}
+.subtotal{
+  font-family: Oswald;
+  font-size: 1.5em;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+button{
+  border-radius: 15px;
+}
+.dollar-sign{
+  padding-top: 6px;
+  padding-right: 3px;
+  font-weight: 500;
+  font-size: 1.5em;
+  line-height: 43.7px;
+}
+.checkout-btn{
+  height: 3rem;
+  background: black;
+  color: white;
+  border-color: black;
+  font-size: 1.75em;
+  margin-top: 50px;
+  transition-duration: 0.2s;
+}
+.checkout-btn:hover{
   color: black;
 }
 .remove{
   border: 1px solid white;
   font-size: 1.25em;
-  height: 2rem;
+  height: 2.5rem;
   padding: 0 30px;
   font-weight: 500;
   color: white;

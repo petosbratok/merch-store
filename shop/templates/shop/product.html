@@ -19,7 +19,7 @@
 					<button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" type="button" class="btn-left"></button>
 					<input class="quantity" min="1" max="{{product.stock}}" name="quantity" value="1" type="number">
 					<!-- <input min="1" value=1 type="number" name="quantity"> -->
-					<button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus" type="button"></button>
+					<button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus btn-right" type="button"></button>
 				</div>
 				{% csrf_token %}
 				<input type="submit" value="Add to Cart">

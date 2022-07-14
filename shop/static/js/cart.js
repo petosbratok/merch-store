@@ -8,9 +8,8 @@ function increase(id, price){
 
       let id_quantity = '#id' + id + '_quantity'
       $(id_quantity).val(parseInt($(id_quantity).val()) + 1)
-      $('#count').text(parseInt($('#count').html()) + 1)
-      console.log(price)
       $('#price').text((parseFloat($('#price').html()) + price).toFixed(2))
+      $('#cart-count').text(parseInt($('#cart-count').html()) + 1)
 
     }, error: function(error){
       console.log(error)
@@ -30,8 +29,8 @@ function decrease(id, price){
 
       let id_quantity = '#id' + id + '_quantity'
       $(id_quantity).val(parseInt($(id_quantity).val()) - 1)
-      $('#count').text(parseInt($('#count').html()) - 1)
       $('#price').text((parseFloat($('#price').html()) - price).toFixed(2))
+      $('#cart-count').text(parseInt($('#cart-count').html()) - 1)
 
 
       if ($(id_quantity).val() == '0'){
@@ -73,7 +72,7 @@ function delete_(id, price){
     data: {},
     success: function(data){
       let quantity = parseInt($('#id' + id + '_quantity').val())
-      $('#count').text(parseInt($('#count').html()) - quantity)
+      $('#cart-count').text(parseInt($('#cart-count').html()) - quantity)
       $('#price').text((parseFloat($('#price').html()) - quantity*price).toFixed(2))
       let item_id = "#item_" + id
       $(item_id).addClass("hidden")

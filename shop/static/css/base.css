@@ -25,7 +25,32 @@ body{
   background: black;
   color: white;
 }
-
+.cart-link{
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+.cart-link img{
+  padding: 0;
+}
+.cart-count-container{
+  position: relative;
+  left: 40px;
+  top: -9px;
+  padding: 1px;
+  height: 22px;
+  width: 22px;
+  border-radius: 100%;
+  background: #505050;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cart-link span{
+  padding-bottom: 1px;
+  font-weight: 500;
+}
 header h1{
   letter-spacing: 2px;
   display: flex;
@@ -33,6 +58,7 @@ header h1{
   align-items: center;
 }
 header img{
+  padding-top: 4px;
   padding-right: 15px;
   height: 38px;
 }

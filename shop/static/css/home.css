@@ -19,7 +19,28 @@ header{
   font-weight: 500;
   letter-spacing: 5px;
   font-size: 5em;
-  padding-bottom: 100px;
+  padding-bottom: 150px;
+}
+.intro a{
+  color: white;
+  font-size: 2.5em;
+  position: absolute;
+  bottom: 40px;
+  padding: 10px;
+  animation-delay: 2s;
+  animation: arrow 4s infinite ease-in-out;
+  transition: 0.5s ease-in;
+}
+.intro a:active{
+  color: red;
+}
+@keyframes arrow{
+  0% {transform: scale(1)}
+  50% {transform: scale(1.25)}
+  100% {transform: scale(1)}
+}
+#shop{
+  scroll-margin-top: 70px;
 }
 main{
   margin: 0;

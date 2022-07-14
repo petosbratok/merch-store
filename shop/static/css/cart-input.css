@@ -10,6 +10,16 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
+.btn-left{
+  border-radius: 15px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.btn-right{
+  border-radius: 15px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
 .number-input {
   margin-bottom: 20px;
   background: black;
@@ -28,8 +38,8 @@ input[type=number]::-webkit-outer-spin-button {
   border: none;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   cursor: pointer;
   margin: 0;
   position: relative;
@@ -57,7 +67,7 @@ input[type=number]::-webkit-outer-spin-button {
   padding: .5rem;
   border: none;
   font-size: 1.5em;
-  height: 2rem;
+  height: 2.5rem;
   font-weight: bold;
   text-align: center;
   transition-duration: 0.2s;
@@ -73,7 +83,7 @@ input[type=number]::-webkit-outer-spin-button {
  background-color: black;
 }
 button:hover{
-  border: 1px solid black;
+  /* border: 1px solid black; */
   box-sizing: border-box;
   background-color: white;
 }

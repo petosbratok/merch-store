@@ -23,11 +23,11 @@
           <div class="number-input" >
             <button onclick="decrease({{ item.id }}, {{ item.product.price }})" type="button" class="btn-left"></button>
             <input class="quantity" min="1" max="{{item.product.stock}}" name="quantity" id="id{{ item.id }}_quantity" value="{{ item.quantity }}" type="number">
-            <button onclick="increase({{ item.id }}, {{ item.product.price }})" class="plus" type="button"></button>
+            <button class="btn-right plus" onclick="increase({{ item.id }}, {{ item.product.price }})" type="button"></button>
           </div>
         </div>
         <div class="delete-and-price">
-          <p class="price">${{ item.product.price }}</p>
+          <p class="price"><span class="dollar-sign-item">$</span>{{ item.product.price }}</p>
           <button class="remove" type="button" onclick="delete_({{ item.id }}, {{ item.product.price }})" name="button">Remove</button>
         </div>
 
@@ -38,13 +38,14 @@
 
   </ul>
   <div class="order">
-    <h2>Order summary</h2>
     <div class="price-container">
-      <p>Total:<strong>$<span id="price">{{order.get_cart_total|floatformat:2}}</span></strong></p>
+      <p class="subtotal">Subtotal</p>
+      <p class="price-container"><span class="dollar-sign">$</span><span id="price">{{order.get_cart_total|floatformat:2}}</span></p>
     </div>
-    <div class="count-container">
+    <button class="checkout-btn" name="button">Check Out</button>
+    <!-- <div class="count-container">
       <p>Amount of items: <strong><span id="count">{{order.get_cart_length}}</span></strong></p>
-    </div>
+    </div> -->
   </div>
 </div>
 {% endblock %}
