@@ -17,9 +17,7 @@ class CheckoutForm(forms.Form):
     'class': 'custom-select d-block w-100',
     }))
     city = forms.CharField()
-    street = forms.CharField()
-    building = forms.CharField()
-    appartment = forms.CharField()
+    address = forms.CharField()
     zip = forms.CharField()
 
     payment_option = forms.ChoiceField(

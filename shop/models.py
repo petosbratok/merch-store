@@ -24,18 +24,27 @@ class Good(models.Model):
     #     return reverse('post-detail', kwargs={'pk': self.pk})
 
 class Customer(models.Model):
-    name = models.CharField(max_length=200, null=True, blank=True)
+    # name = models.CharField(max_length=200, null=True, blank=True)
     device = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
-        if self.name:
-            name = self.name
-        else:
-            name = self.device
-        return str(name)
+        return str(self.device)
+
+class DeliveryInfo(models.Model):
+    full_name = models.CharField(max_length=100, null=True, blank=True)
+    phone = models.CharField(max_length=100, null=True, blank=True)
+    email = models.CharField(max_length=100, null=True, blank=True)
+    country = models.CharField(max_length=100, null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    address = models.CharField(max_length=100, null=True, blank=True)
+    zip = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+    	return str(self.id)
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
+    delivery_info = models.ForeignKey(DeliveryInfo, on_delete=models.SET_NULL, null=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False)
     transaction_id = models.CharField(max_length=100, null=True)

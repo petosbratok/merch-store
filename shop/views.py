@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import *
 from .forms import CheckoutForm
+# from django.db import transaction
 
 class DeleteOrderItemAPI(APIView):
     def get(self, request, pk, format=None):
@@ -102,18 +103,42 @@ def cart(request):
 
 class CheckoutView(View):
     def get(self, *args, **kwargs):
+        device = self.request.COOKIES['device']
+        order = Order.objects.get(customer=Customer.objects.get(device=device))
         form = CheckoutForm()
         context = {
             'form': form,
+            'order': order,
         }
         return render(self.request, 'shop/checkout.html', context)
         if form.is_valid():
-            print('form is valid')
             return redirect('checkout')
 
     def post(self, *args, **kwargs):
         form = CheckoutForm(self.request.POST or None)
         if form.is_valid():
-            print(form.cleaned_data)
+            full_name = form.cleaned_data.get('full_name')
+            phone = form.cleaned_data.get('phone')
+            email = form.cleaned_data.get('email')
+            country = form.cleaned_data.get('country')
+            city = form.cleaned_data.get('city')
+            address = form.cleaned_data.get('address')
+            zip = form.cleaned_data.get('zip')
+
+            delivery_info = DeliveryInfo(
+                full_name = full_name,
+                phone = phone,
+                email = email,
+                country = country,
+                city = city,
+                address = address,
+                zip = zip,
+            )
+            delivery_info.save()
+            device = self.request.COOKIES['device']
+            order = Order.objects.get(customer=Customer.objects.get(device=device))
+            order.delivery_info = delivery_info
+            print(order)
+            order.save()
             return redirect('checkout')
         return redirect('checkout')

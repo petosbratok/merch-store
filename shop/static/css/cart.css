@@ -8,6 +8,9 @@ body{
   background: linear-gradient(45deg, rgba(23,35,52,1) 23%, rgba(83,46,79,1) 50%, rgba(37,76,93,1) 80%);
   background-attachment: fixed;
 }
+main{
+  font-size: 0.8em;
+}
 .cart{
   margin-top: 50px;
   margin-left: 4vw;
@@ -17,7 +20,7 @@ body{
   /* background-color: white; */
 }
 .image-container{
-  height: 200px;
+  height: 160px;
   padding: 0 30px;
   padding-right: 50px;
 }

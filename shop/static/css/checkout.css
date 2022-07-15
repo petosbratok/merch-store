@@ -1,0 +1,53 @@
+main{
+  padding-top: 30px;
+  display: flex;
+  justify-content: center;
+  font-size: 1.25em;
+}
+form{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background: white;
+  border-radius: 30px;
+  padding: 30px 60px;
+  color: black;
+  width: 700px;
+}
+input, select, button{
+  margin-bottom: 10px;
+  width: 200px;
+}
+.button-container{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+button{
+  background: inherit;
+  border-width: 1px;
+  display: block;
+  height: 2.5em;
+  width: 200px;
+  text-align: center;
+  margin-top: 30px;
+  font-size: 1.25em;
+  transition-duration: 0.2s;
+  color: white;
+  background-color: black;
+  border: 1px solid white;
+  border-radius: 15px;
+}
+button:hover{
+  cursor: pointer;
+  color: black;
+  border-color: black;
+  background-color: white;
+}
+.country-select-flag{
+  display: none !important;
+}
+.label-container{
+  width: 100%;
+  margin-bottom: 15px;
+}

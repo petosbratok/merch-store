@@ -23,6 +23,7 @@ img{
   border-bottom-left-radius: 0;
 }
 .info{
+  font-size: 0.8em;
   margin-left: 8vw;
 }
 .title{
@@ -97,7 +98,7 @@ input[type=number]::-webkit-outer-spin-button {
   max-width: 5rem;
   padding: .5rem;
   border: none;
-  font-size: 2rem;
+  font-size: 1.5rem;
   height: 3rem;
   font-weight: bold;
   text-align: center;
@@ -106,8 +107,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 input[type=submit] {
   display: block;
-  height: 48px;
-  width: 176px;
+  height: 2.5em;
+  width: 9.15em;
   text-align: center;
   margin-top: 30px;
   font-size: 1.5em;
