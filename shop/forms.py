@@ -20,5 +20,5 @@ class CheckoutForm(forms.Form):
     address = forms.CharField()
     zip = forms.CharField()
 
-    payment_option = forms.ChoiceField(
-        widget=forms.RadioSelect, choices=PAYMENT_CHOICES)
+    # payment_option = forms.ChoiceField(
+    #     widget=forms.RadioSelect, choices=PAYMENT_CHOICES)

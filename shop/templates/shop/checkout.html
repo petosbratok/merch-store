@@ -14,7 +14,155 @@
    </div>
    {{ form|crispy }}
    <div class="button-container">
-     <button type="submit" name="button">Proceed to pay</button>
+     <section>
+       <button onclick="save_delivery_info()" type="button" id="checkout-button" name="button">Proceed to pay</button>
+       {% csrf_token %}
+     </section>
    </div>
  </form>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<script type="text/javascript">
+  function save_delivery_info(){
+    var this_ = $(this)
+    $.ajax({
+      url: '/save-delivery-info',
+      method: "get",
+      data: {
+        csrf_token: document.querySelector('[name=csrfmiddlewaretoken]').value,
+        csrftoken: document.querySelector('[name=csrfmiddlewaretoken]').value,
+        full_name: $('#id_full_name').val(),
+        phone: $('#id_phone').val(),
+        email: $('#id_email').val(),
+        country: $('#id_country').val(),
+        city: $('#id_city').val(),
+        address: $('#id_address').val(),
+        zip: $('#id_zip').val(),
+      },
+      success: function(data){
+      }, error: function(error){
+        console.log(error)
+        console.log("error")
+      }
+    })
+  }
+</script>
+<script type="text/javascript">
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  // Create an instance of the Stripe object with your publishable API key
+  var stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
+  var checkoutButton = document.getElementById("checkout-button");
+  checkoutButton.addEventListener("click", function () {
+    fetch("{% url 'create-checkout-session' %}", {
+      method: "POST",
+      headers: {
+          'X-CSRFToken': csrftoken
+      }
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (session) {
+        return stripe.redirectToCheckout({ sessionId: session.id });
+      })
+      .then(function (result) {
+        // If redirectToCheckout fails due to a browser or network
+        // error, you should display the localized error message to your
+        // customer using error.message.
+        if (result.error) {
+          alert(result.error.message);
+        }
+      })
+      .catch(function (error) {
+        console.error("Error:", error);
+      });
+  });
+
+  // Disable the button until we have Stripe set up on the page
+
+  var elements = stripe.elements();
+  var style = {
+    base: {
+      color: "#32325d",
+      fontFamily: 'Arial, sans-serif',
+      fontSmoothing: "antialiased",
+      fontSize: "16px",
+      "::placeholder": {
+        color: "#32325d"
+      }
+    },
+    invalid: {
+      fontFamily: 'Arial, sans-serif',
+      color: "#fa755a",
+      iconColor: "#fa755a"
+    }
+  };
+  var card = elements.create("card", { style: style });
+  // Stripe injects an iframe into the DOM
+  card.mount("#card-element");
+  card.on("change", function (event) {
+    // Disable the Pay button if there are no card details in the Element
+    document.querySelector("button").disabled = event.empty;
+    document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
+  });
+  var form = document.getElementById("payment-form");
+
+  var payWithCard = function(stripe, card, clientSecret) {
+    loading(true);
+    stripe
+      .confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card
+        }
+      })
+      .then(function(result) {
+        if (result.error) {
+          // Show error to your customer
+          showError(result.error.message);
+        } else {
+          // The payment succeeded!
+          orderComplete(result.paymentIntent.id);
+        }
+      });
+  };
+  /* ------- UI helpers ------- */
+  // Shows a success message when the payment is complete
+  var orderComplete = function(paymentIntentId) {
+    loading(false);
+    document
+      .querySelector(".result-message a")
+      .setAttribute(
+        "href",
+        "https://dashboard.stripe.com/test/payments/" + paymentIntentId
+      );
+    document.querySelector(".result-message").classList.remove("hidden");
+    document.querySelector("button").disabled = true;
+  };
+  // Show the customer the error from Stripe if their card fails to charge
+  var showError = function(errorMsgText) {
+    loading(false);
+    var errorMsg = document.querySelector("#card-error");
+    errorMsg.textContent = errorMsgText;
+    setTimeout(function() {
+      errorMsg.textContent = "";
+    }, 4000);
+  };
+  // Show a spinner on payment submission
+  var loading = function(isLoading) {
+    if (isLoading) {
+      // Disable the button and show a spinner
+      document.querySelector("button").disabled = true;
+      document.querySelector("#spinner").classList.remove("hidden");
+      document.querySelector("#button-text").classList.add("hidden");
+    } else {
+      document.querySelector("button").disabled = false;
+      document.querySelector("#spinner").classList.add("hidden");
+      document.querySelector("#button-text").classList.remove("hidden");
+    }
+  };
+
+</script>
 {% endblock %}

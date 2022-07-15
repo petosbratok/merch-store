@@ -52,6 +52,36 @@ class DecreaseOrderItemAPI(APIView):
         }
         return Response(data)
 
+class SaveDeliveryInfoAPI(APIView):
+    def get(self, request, *args, **kwargs):
+        full_name = self.request.GET.get('full_name')
+        phone = self.request.GET.get('phone')
+        email = self.request.GET.get('email')
+        country = self.request.GET.get('country')
+        city = self.request.GET.get('city')
+        address = self.request.GET.get('address')
+        zip = self.request.GET.get('zip')
+        delivery_info = DeliveryInfo(
+            full_name = full_name,
+            phone = phone,
+            email = email,
+            country = country,
+            city = city,
+            address = address,
+            zip = zip,
+        )
+        delivery_info.save()
+        device = self.request.COOKIES['device']
+        order = Order.objects.get(customer=Customer.objects.get(device=device))
+        try:
+            DeliveryInfo.objects.get(order=order).delete()
+        except:
+            pass
+        order.delivery_info = delivery_info
+        order.save()
+
+        return Response(self.request.GET)
+
 def home(request):
     context = {}
     goods = Good.objects.all().order_by('-id')
@@ -114,42 +144,43 @@ class CheckoutView(View):
         context = {
             'form': form,
             'order': order,
+            "STRIPE_PUBLIC_KEY": 'pk_test_51LLrLoCihPRd6C0fNQKhJ73pM1QvCVEd6Qn40jWbJjFFFz49F6IzK5j2cp6R9wOo1UG0JExS5xmufj9YC8seUjKO00lu1e17uF',
         }
         return render(self.request, 'shop/checkout.html', context)
         if form.is_valid():
             return redirect('checkout')
 
-    def post(self, *args, **kwargs):
-        form = CheckoutForm(self.request.POST or None)
-        if form.is_valid():
-            full_name = form.cleaned_data.get('full_name')
-            phone = form.cleaned_data.get('phone')
-            email = form.cleaned_data.get('email')
-            country = form.cleaned_data.get('country')
-            city = form.cleaned_data.get('city')
-            address = form.cleaned_data.get('address')
-            zip = form.cleaned_data.get('zip')
-
-            delivery_info = DeliveryInfo(
-                full_name = full_name,
-                phone = phone,
-                email = email,
-                country = country,
-                city = city,
-                address = address,
-                zip = zip,
-            )
-            delivery_info.save()
-            device = self.request.COOKIES['device']
-            order = Order.objects.get(customer=Customer.objects.get(device=device))
-            try:
-                DeliveryInfo.objects.get(order=order).delete()
-            except:
-                pass
-            order.delivery_info = delivery_info
-            order.save()
-            return redirect('checkout')
-        return redirect('checkout')
+    # def post(self, *args, **kwargs):
+        # if form.is_valid():
+        #     form = CheckoutForm(self.request.POST or None)
+        #     full_name = form.cleaned_data.get('full_name')
+        #     phone = form.cleaned_data.get('phone')
+        #     email = form.cleaned_data.get('email')
+        #     country = form.cleaned_data.get('country')
+        #     city = form.cleaned_data.get('city')
+        #     address = form.cleaned_data.get('address')
+        #     zip = form.cleaned_data.get('zip')
+        #
+        #     delivery_info = DeliveryInfo(
+        #         full_name = full_name,
+        #         phone = phone,
+        #         email = email,
+        #         country = country,
+        #         city = city,
+        #         address = address,
+        #         zip = zip,
+        #     )
+        #     delivery_info.save()
+        #     device = self.request.COOKIES['device']
+        #     order = Order.objects.get(customer=Customer.objects.get(device=device))
+        #     try:
+        #         DeliveryInfo.objects.get(order=order).delete()
+        #     except:
+        #         pass
+        #     order.delivery_info = delivery_info
+        #     order.save()
+            # return redirect('checkout')
+        # return redirect('checkout')
 
 class CreateCheckoutSessionView(View):
     def post(self, request, *args, **kwargs):
@@ -164,7 +195,6 @@ class CreateCheckoutSessionView(View):
                     'unit_amount': int(order_item.product.price*100),
                     'product_data': {
                         'name': order_item.product.title,
-                        # 'images': ['https://i.imgur.com/EHyR2nP.png'],
                     },
                 },
                 'quantity': order_item.quantity,
