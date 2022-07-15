@@ -1,5 +1,12 @@
+body{
+  background: linear-gradient(45deg, rgba(23,35,52,1) 23%, rgba(83,46,79,1) 50%, rgba(37,76,93,1) 80%);
+  background-attachment: fixed;
+}
+header{
+  background: black;
+}
 main{
-  padding-top: 30px;
+  padding-top: 50px;
   display: flex;
   justify-content: center;
   font-size: 1.25em;
@@ -44,10 +51,38 @@ button:hover{
   border-color: black;
   background-color: white;
 }
+#div_id_payment_option{
+  width: 200px;
+}
+#div_id_payment_option .controls{
+  display: flex;
+  padding-left: 10px;
+}
+#div_id_payment_option label{
+  width: 50%;
+}
+#div_id_payment_option input{
+  width: 10px;
+  box-sizing: content-box;
+  position: relative;
+  top: 2px;
+  right: 2px;
+  margin: 0;
+}
 .country-select-flag{
   display: none !important;
 }
 .label-container{
   width: 100%;
   margin-bottom: 15px;
+}
+h3{
+  font-weight: 500;
+  letter-spacing: 1px;
+  /* font-family: Oswald; */
+  background: black;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
 }
