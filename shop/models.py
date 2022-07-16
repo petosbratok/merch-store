@@ -14,7 +14,7 @@ class Good(models.Model):
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
     photo = models.ImageField(default='изображение_2022-07-10_235015707',upload_to='merch_pics')
     price = models.DecimalField(default=30.00, max_digits=10, decimal_places=2)
-    stock = models.IntegerField(default=1000)
+    stock = models.CharField(default='xs_100 s_100 m_100 l_100 xl_100', max_length=100)
     date_added = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -69,12 +69,12 @@ class Order(models.Model):
     	return length
 
 class OrderItem(models.Model):
-	product = models.ForeignKey(Good, on_delete=models.CASCADE, null=True)
-	order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
-	quantity = models.IntegerField(default=0, null=True, blank=True)
-	date_added = models.DateTimeField(auto_now_add=True)
-
-	@property
-	def get_total(self):
-		total = self.product.price * self.quantity
-		return total
+    product = models.ForeignKey(Good, on_delete=models.CASCADE, null=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
+    quantity = models.IntegerField(default=0, null=True, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    size = models.CharField(max_length=2, blank=True, null=True)
+    @property
+    def get_total(self):
+    	total = self.product.price * self.quantity
+    	return total

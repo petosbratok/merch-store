@@ -39,6 +39,30 @@ img{
   font-size: 2.5em;
   font-weight: 500;
 }
+.size-btn-container{
+  margin-top: 20px;
+}
+.size-btn{
+  font-size: 1.5em;
+  background: white;
+  width: 4rem;
+  height: 3rem;
+  /* border:  */
+  margin-right: 5px;
+  text-transform: uppercase;
+  border-radius: 15px;
+  transition-duration: 0.2s;
+}
+.size-btn:hover{
+  color: white;
+}
+.chosen{
+  color: white;
+  transition-duration: 0.2s;
+  background: black;
+  border: 1px solid white;
+}
+
 input[type="number"] {
   -webkit-appearance: textfield;
   -moz-appearance: textfield;

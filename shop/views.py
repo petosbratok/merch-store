@@ -109,7 +109,7 @@ def product(request, pk):
         customer, created = Customer.objects.get_or_create(device=device)
 
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+        orderItem, created = OrderItem.objects.get_or_create(order=order, product=product, size=request.POST['size'])
         orderItem.quantity = int(orderItem.quantity) + int(request.POST['quantity'])
         orderItem.save()
 
@@ -195,6 +195,7 @@ class CreateCheckoutSessionView(View):
                     'unit_amount': int(order_item.product.price*100),
                     'product_data': {
                         'name': order_item.product.title,
+                        "description": f'Type: {order_item.product.type}; Size: {order_item.size}',
                     },
                 },
                 'quantity': order_item.quantity,
@@ -213,17 +214,6 @@ class CreateCheckoutSessionView(View):
             'id': checkout_session.id
         })
 
-class ProductLandingPageView(TemplateView):
-    template_name = "shop/landing.html"
-
-    def get_context_data(self, **kwargs):
-        product = Good.objects.get(id=1)
-        context = super(ProductLandingPageView, self).get_context_data(**kwargs)
-        context.update({
-            "product": product,
-            "STRIPE_PUBLIC_KEY": 'pk_test_51LLrLoCihPRd6C0fNQKhJ73pM1QvCVEd6Qn40jWbJjFFFz49F6IzK5j2cp6R9wOo1UG0JExS5xmufj9YC8seUjKO00lu1e17uF'
-        })
-        return context
 
 def success(request):
     return render(request, 'shop/success.html')

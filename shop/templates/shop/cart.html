@@ -19,6 +19,7 @@
           <div>
             <p class="title">{{ item.product.title }}</p>
             <p class="type">{{ item.product.type.type }}</p>
+            <p class="size">Size: <span class="size-value">{{ item.size }}</span></p>
           </div>
           <div class="number-input" >
             <button onclick="decrease({{ item.id }}, {{ item.product.price }})" type="button" class="btn-left"></button>

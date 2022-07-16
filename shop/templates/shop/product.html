@@ -1,5 +1,6 @@
 {% extends 'shop/base.html' %}
 {% load static %}
+{% load filter %}
 
 {%  block links %}
 	<link rel="stylesheet" href="{% static 'css/product.css' %}">
@@ -14,6 +15,15 @@
 			<h3 class="title">{{product.title}}</h3>
 			<p class="type">{{product.type}}</p>
 			<p class="price">${{product.price}}</p>
+			<div class="size-btn-container">
+				{% with product.stock|split:" " as stock %}
+				{% for stock_item in stock %}
+				{% with stock_item|split:"_" as size_amount %}
+				<button type="button" id="size_{{size_amount.0}}" onclick="choose_size('{{size_amount.0}}')" class="size-btn size">{{size_amount.0}}
+					{% endwith %}
+					{% endfor %}
+					{% endwith %}
+				</div>
 			<form method="POST" action="{% url 'product' product.id %}">
 				<div class="number-input" >
 					<button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" type="button" class="btn-left"></button>
@@ -22,9 +32,14 @@
 					<button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus btn-right" type="button"></button>
 				</div>
 				{% csrf_token %}
+				<input id="input-size" type="hidden" name="size" value="m" >
 				<input type="submit" value="Add to Cart">
 			</form>
 
 		</div>
 	</div>
 {% endblock content %}
+
+{% block scripts %}
+	 <script type="text/javascript" src="{% static 'js/product.js' %}"></script>
+{% endblock %}

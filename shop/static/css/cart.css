@@ -53,6 +53,14 @@ ul{
   font-size: 1.6em;
   font-weight: 500;
 }
+.size{
+  font-size: 1.5em;
+  margin-top: 10px;
+}
+.size-value{
+  text-transform: capitalize;
+  font-weight: 500;
+}
 .dollar-sign-item{
   font-weight: 500;
   padding-right: 2px;
