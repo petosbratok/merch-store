@@ -1,14 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, View, TemplateView
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+from django.core.mail import send_mail
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import *
 from .forms import CheckoutForm
 import stripe
-from django.conf import settings
 
-stripe.api_key = 'sk_test_51LLrLoCihPRd6C0f9H2L00Nq6AAjvSwLkDykjVGJ0LdLs03mldDvTsiZLhS8ASax9HHl7wTiDoffSyIQMQMk1ZJw00rp5AoRxI'
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 class DeleteOrderItemAPI(APIView):
@@ -150,45 +152,14 @@ class CheckoutView(View):
         if form.is_valid():
             return redirect('checkout')
 
-    # def post(self, *args, **kwargs):
-        # if form.is_valid():
-        #     form = CheckoutForm(self.request.POST or None)
-        #     full_name = form.cleaned_data.get('full_name')
-        #     phone = form.cleaned_data.get('phone')
-        #     email = form.cleaned_data.get('email')
-        #     country = form.cleaned_data.get('country')
-        #     city = form.cleaned_data.get('city')
-        #     address = form.cleaned_data.get('address')
-        #     zip = form.cleaned_data.get('zip')
-        #
-        #     delivery_info = DeliveryInfo(
-        #         full_name = full_name,
-        #         phone = phone,
-        #         email = email,
-        #         country = country,
-        #         city = city,
-        #         address = address,
-        #         zip = zip,
-        #     )
-        #     delivery_info.save()
-        #     device = self.request.COOKIES['device']
-        #     order = Order.objects.get(customer=Customer.objects.get(device=device))
-        #     try:
-        #         DeliveryInfo.objects.get(order=order).delete()
-        #     except:
-        #         pass
-        #     order.delivery_info = delivery_info
-        #     order.save()
-            # return redirect('checkout')
-        # return redirect('checkout')
-
 class CreateCheckoutSessionView(View):
     def post(self, request, *args, **kwargs):
         device = self.request.COOKIES['device']
         order = Order.objects.get(customer=Customer.objects.get(device=device))
         YOUR_DOMAIN = "http://127.0.0.1:8000"
         line_items = []
-        for order_item in OrderItem.objects.all().filter(order=order):
+        order_items = OrderItem.objects.all().filter(order=order)
+        for order_item in order_items:
             line_items.append({
                 'price_data': {
                     'currency': 'usd',
@@ -204,7 +175,7 @@ class CreateCheckoutSessionView(View):
             payment_method_types=['card'],
             line_items=line_items,
             metadata={
-                "product_id": 'no data'
+                "product_id": str([order_item.product.id for order_item in order_items])
             },
             mode='payment',
             success_url=YOUR_DOMAIN + '/success/',
@@ -220,3 +191,37 @@ def success(request):
 
 def cancel(request):
     return render(request, 'shop/cancel.html')
+
+
+@csrf_exempt
+def stripe_webhook(request):
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    endpoint_secret = settings.STRIPE_ENDPOINT_SECRET
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    event = None
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except ValueError as e:
+        # Invalid payload
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return HttpResponse(status=400)
+
+    # Handle the checkout.session.completed event
+    if event['type'] == 'checkout.session.completed':
+        print("Payment was successful.")
+        session = event['data']['object']
+        print(session)
+        custromer_email = session["customer_details"]["email"]
+        send_mail(
+            subject="here's your product",
+            message="thanks for the puschase",
+            recipient_list=[custromer_email],
+            from_email='test1486745321@gmail.com'
+        )
+    return HttpResponse(status=200)
