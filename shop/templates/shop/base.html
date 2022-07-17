@@ -15,7 +15,15 @@
   <body>
     <header>
       <h1><a style="height: 38px;" href="https://github.com/petosbratok"><img src="https://img.icons8.com/ios-glyphs/30/FFFFFF/github.png"/></a><a href="/">merch store #1</a></h1>
-      <a class="cart-link" href="/cart"><img src="https://img.icons8.com/ios-glyphs/30/FFFFFF/shopping-cart--v1.png"/><p class='cart-count-container'><span id="cart-count">{{order.get_cart_length}}</span></p></a>
+      <a class="cart-link" href="/cart"><img src="https://img.icons8.com/ios-glyphs/30/FFFFFF/shopping-cart--v1.png"/>
+        <p class='cart-count-container'>
+          {% if order.get_cart_length %}
+          <span id="cart-count">{{order.get_cart_length}}</span>
+          {% else %}
+          <span id="cart-count">0</span>
+          {% endif %}
+        </p>
+      </a>
     </header>
     <main>
       {% block content %}{% endblock %}

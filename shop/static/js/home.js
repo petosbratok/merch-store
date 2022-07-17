@@ -65,12 +65,18 @@ function uuidv4() {
 
 
 let device = getCookie('device')
+let order_id = getCookie('order_id')
 
 if (device == null || device == undefined){
   device = uuidv4()
 }
 
-document.cookie ='device=' + device + ";domain=;path=/"
+if (order_id == null || order_id == undefined){
+  order_id = uuidv4()
+}
+
+document.cookie = 'device=' + device + ";domain=;path=/"
+document.cookie = 'order_id=' + order_id + ";domain=;path=/"
 
 function scrollSmoothTo(elementId) {
   var element = document.getElementById(elementId);

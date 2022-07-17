@@ -73,8 +73,10 @@ class SaveDeliveryInfoAPI(APIView):
             zip = zip,
         )
         delivery_info.save()
-        device = self.request.COOKIES['device']
-        order = Order.objects.get(customer=Customer.objects.get(device=device))
+        # device = self.request.COOKIES['device']
+        # order = Order.objects.get(customer=Customer.objects.get(device=device))
+        order_id = request.COOKIES['order_id']
+        order = Order.objects.get(order_id=order_id)
         try:
             DeliveryInfo.objects.get(order=order).delete()
         except:
@@ -90,27 +92,26 @@ def home(request):
     context['goods'] = goods
 
     try:
-        customer = request.user.customer
-    except:
         device = request.COOKIES['device']
+        order_id = request.COOKIES['order_id']
         customer, created = Customer.objects.get_or_create(device=device)
-
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        order, created = Order.objects.get_or_create(customer=customer, order_id=order_id, complete=False)
 
         context['order'] = order
+    except:
+        pass
     print(goods)
     return render(request, 'shop/home.html', context)
 
 def product(request, pk):
     product = Good.objects.get(id=pk)
-
+    context = {}
     if request.method == 'POST':
         product = Good.objects.get(id=pk)
-        #Get user account information
         device = request.COOKIES['device']
+        order_id = request.COOKIES['order_id']
         customer, created = Customer.objects.get_or_create(device=device)
-
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        order, created = Order.objects.get_or_create(customer=customer, order_id=order_id, complete=False)
         orderItem, created = OrderItem.objects.get_or_create(order=order, product=product, size=request.POST['size'])
         orderItem.quantity = int(orderItem.quantity) + int(request.POST['quantity'])
         orderItem.save()
@@ -118,30 +119,31 @@ def product(request, pk):
         return redirect('cart')
 
     context = {'product':product}
-    device = request.COOKIES['device']
-    customer, created = Customer.objects.get_or_create(device=device)
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
-
-    context['order'] = order
+    try:
+        order_id = request.COOKIES['order_id']
+        order = Order.objects.get(order_id=order_id)
+        context['order'] = order
+    except:
+        pass
     return render(request, 'shop/product.html', context)
 
 def cart(request):
-	try:
-		customer = request.user.customer
-	except:
-		device = request.COOKIES['device']
-		customer, created = Customer.objects.get_or_create(device=device)
+    try:
+        order_id = request.COOKIES['order_id']
+        order, created = Order.objects.get_or_create(order_id=order_id, complete=False)
+    except:
+        return redirect('shop-home')
 
-	order, created = Order.objects.get_or_create(customer=customer, complete=False)
-
-
-	context = {'order':order}
-	return render(request, 'shop/cart.html', context)
+    context = {'order':order}
+    return render(request, 'shop/cart.html', context)
 
 class CheckoutView(View):
     def get(self, *args, **kwargs):
-        device = self.request.COOKIES['device']
-        order = Order.objects.get(customer=Customer.objects.get(device=device))
+        try:
+            order_id = self.request.COOKIES['order_id']
+        except:
+            return redirect('shop-home')
+        order = Order.objects.get(order_id=order_id)
         form = CheckoutForm()
         context = {
             'form': form,
@@ -155,7 +157,9 @@ class CheckoutView(View):
 class CreateCheckoutSessionView(View):
     def post(self, request, *args, **kwargs):
         device = self.request.COOKIES['device']
-        order = Order.objects.get(customer=Customer.objects.get(device=device))
+        # order = Order.objects.get(customer=Customer.objects.get(device=device))
+        order_id = request.COOKIES['order_id']
+        order = Order.objects.get(order_id=order_id)
         YOUR_DOMAIN = "http://127.0.0.1:8000"
         line_items = []
         order_items = OrderItem.objects.all().filter(order=order)
@@ -175,10 +179,11 @@ class CreateCheckoutSessionView(View):
             payment_method_types=['card'],
             line_items=line_items,
             metadata={
-                "product_id": str([order_item.product.id for order_item in order_items])
+                "product_id": str([order_item.product.id for order_item in order_items]),
+                "device": device,
             },
             mode='payment',
-            success_url=YOUR_DOMAIN + '/success/',
+            success_url=f'{YOUR_DOMAIN}/order/{order_id}',
             cancel_url=YOUR_DOMAIN + '/cancel/',
         )
         return JsonResponse({
@@ -186,8 +191,13 @@ class CreateCheckoutSessionView(View):
         })
 
 
-def success(request):
-    return render(request, 'shop/success.html')
+def order(request, pk):
+    order = Order.objects.get(order_id=pk)
+    context = {
+        'order': order
+    }
+
+    return render(request, 'shop/order.html', context)
 
 def cancel(request):
     return render(request, 'shop/cancel.html')
@@ -216,8 +226,12 @@ def stripe_webhook(request):
     if event['type'] == 'checkout.session.completed':
         print("Payment was successful.")
         session = event['data']['object']
-        print(session)
         custromer_email = session["customer_details"]["email"]
+        transaction_id = session["payment_intent"]
+        device = session["metadata"]["device"]
+        order = Order.objects.get(customer=Customer.objects.get(device=device))
+        order.transaction_id = transaction_id
+        order.save()
         send_mail(
             subject="here's your product",
             message="thanks for the puschase",

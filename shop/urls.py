@@ -15,7 +15,7 @@ urlpatterns = [
     path('product/<str:pk>/', views.product, name="product"),
     path('checkout', CheckoutView.as_view(), name='checkout'),
     path('create-checkout-session/', CreateCheckoutSessionView.as_view(), name='create-checkout-session'),
-    path('success/', views.success, name='success'),
+    path('order/<str:pk>/', views.order, name='order'),
     path('cancel/', views.cancel, name='cancel'),
     path('webhook/', views.stripe_webhook),
     path('delete-order-item/<str:pk>', DeleteOrderItemAPI.as_view(), name='delete-order-item-api'),

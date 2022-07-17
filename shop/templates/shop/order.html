@@ -1,0 +1,30 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block links %}
+{% endblock %}
+
+{% block content %}
+<div style="margin: auto; font-size: 1.25em;"class="order">
+  <h1>Order info</h1>
+  <p>Your order id: {{ order.order_id }}</p>
+  <ul>
+    {% for item in order.get_cart_items %}
+    <li class="item" id="item_{{ item.id }}"><div class="cart-item">
+            <span class="title">{{ item.product.title }}</span>
+            <span class="type">{{ item.product.type.type }}</span>
+            <span class="size">Size: <span class="size-value">{{ item.size }}</span></span>
+            <span class="price"><span class="dollar-sign-item">$</span>{{ item.product.price }}</span>
+    </div></li>
+    {% endfor %}
+    <li>
+      {% if order.transaction_id == '9999999999999999' %}
+      <p>Order have not been paid yet</p>
+      {% else %}
+      <p>Transaction complete</p>
+      <p>Transaction id: {{ order.transaction_id }}</p>
+      {% endif %}
+    </li>
+  </ul>
+</div>
+{% endblock %}
