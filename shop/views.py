@@ -89,10 +89,8 @@ def home(request):
     goods = Good.objects.all().order_by('-id')
     context['goods'] = goods
     try:
-        device = request.COOKIES['device']
         order_id = request.COOKIES['order_id']
-        customer, created = Customer.objects.get_or_create(device=device)
-        order, created = Order.objects.get_or_create(customer=customer, order_id=order_id, complete=False)
+        order, created = Order.objects.get_or_create(order_id=order_id, complete=False)
 
         context['order'] = order
     except:
@@ -105,10 +103,8 @@ def product(request, pk):
     context = {}
     if request.method == 'POST':
         product = Good.objects.get(id=pk)
-        device = request.COOKIES['device']
         order_id = request.COOKIES['order_id']
-        customer, created = Customer.objects.get_or_create(device=device)
-        order, created = Order.objects.get_or_create(customer=customer, order_id=order_id, complete=False)
+        order, created = Order.objects.get_or_create(order_id=order_id, complete=False)
         orderItem, created = OrderItem.objects.get_or_create(order=order, product=product, size=request.POST['size'])
         orderItem.quantity = int(orderItem.quantity) + int(request.POST['quantity'])
         orderItem.save()
@@ -153,8 +149,6 @@ class CheckoutView(View):
 
 class CreateCheckoutSessionView(View):
     def post(self, request, *args, **kwargs):
-        device = self.request.COOKIES['device']
-        # order = Order.objects.get(customer=Customer.objects.get(device=device))
         order_id = request.COOKIES['order_id']
         order = Order.objects.get(order_id=order_id)
         YOUR_DOMAIN = "http://127.0.0.1:8000"
@@ -177,7 +171,7 @@ class CreateCheckoutSessionView(View):
             line_items=line_items,
             metadata={
                 "product_id": str([order_item.product.id for order_item in order_items]),
-                "device": device,
+                "order_id": order_id,
             },
             mode='payment',
             success_url=f'{YOUR_DOMAIN}/deletecookies/{order_id}',
@@ -225,8 +219,8 @@ def stripe_webhook(request):
         session = event['data']['object']
         custromer_email = session["customer_details"]["email"]
         transaction_id = session["payment_intent"]
-        device = session["metadata"]["device"]
-        order = Order.objects.get(customer=Customer.objects.get(device=device))
+        order_id = session["metadata"]["order_id"]
+        order = Order.objects.get(order_id=order_id)
         order.transaction_id = transaction_id
         order.save()
         send_mail(
@@ -242,5 +236,4 @@ def stripe_webhook(request):
 def delete_user_cookies(request, order_id):
     response = HttpResponseRedirect(reverse('order', args=(order_id,)))
     response.delete_cookie('order_id')
-    response.delete_cookie('device')
     return response

@@ -23,12 +23,6 @@ class Good(models.Model):
     # def get_absolute_url(self):
     #     return reverse('post-detail', kwargs={'pk': self.pk})
 
-class Customer(models.Model):
-    # name = models.CharField(max_length=200, null=True, blank=True)
-    device = models.CharField(max_length=200, null=True, blank=True)
-
-    def __str__(self):
-        return str(self.device)
 
 class DeliveryInfo(models.Model):
     full_name = models.CharField(max_length=100, null=True, blank=True)
@@ -43,7 +37,6 @@ class DeliveryInfo(models.Model):
     	return str(self.id)
 
 class Order(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
     delivery_info = models.ForeignKey(DeliveryInfo, on_delete=models.SET_NULL, null=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False)

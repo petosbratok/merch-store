@@ -5,7 +5,6 @@ from .models import *
 
 admin.site.register(Good)
 admin.site.register(Type)
-admin.site.register(Customer)
 admin.site.register(Order)
 admin.site.register(OrderItem)
 admin.site.register(DeliveryInfo)

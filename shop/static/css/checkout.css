@@ -17,13 +17,20 @@ form{
   justify-content: space-between;
   background: white;
   border-radius: 30px;
-  padding: 30px 60px;
+  padding: 40px 50px;
   color: black;
   width: 700px;
 }
+.control-group{
+  width: 40%;
+  margin-top: 8px;
+}
 input, select, button{
-  margin-bottom: 10px;
-  width: 200px;
+  margin-top: 4px;
+  border: none;
+  width: 100%;
+  padding: 10px;
+  border-bottom: 1px solid black;
 }
 .button-container{
   width: 100%;
@@ -74,15 +81,19 @@ button:hover{
 }
 .label-container{
   width: 100%;
+  padding: 0 auto;
   margin-bottom: 15px;
+  height: 2.5em;
+
 }
 h3{
   font-weight: 500;
   letter-spacing: 1px;
   /* font-family: Oswald; */
+  width: 200px;
   background: black;
   color: white;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 15px;
   text-align: center;
 }
