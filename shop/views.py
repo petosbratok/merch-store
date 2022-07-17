@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, View, TemplateView
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.core.mail import send_mail
@@ -73,8 +73,6 @@ class SaveDeliveryInfoAPI(APIView):
             zip = zip,
         )
         delivery_info.save()
-        # device = self.request.COOKIES['device']
-        # order = Order.objects.get(customer=Customer.objects.get(device=device))
         order_id = request.COOKIES['order_id']
         order = Order.objects.get(order_id=order_id)
         try:
@@ -90,7 +88,6 @@ def home(request):
     context = {}
     goods = Good.objects.all().order_by('-id')
     context['goods'] = goods
-
     try:
         device = request.COOKIES['device']
         order_id = request.COOKIES['order_id']
@@ -183,7 +180,7 @@ class CreateCheckoutSessionView(View):
                 "device": device,
             },
             mode='payment',
-            success_url=f'{YOUR_DOMAIN}/order/{order_id}',
+            success_url=f'{YOUR_DOMAIN}/deletecookies/{order_id}',
             cancel_url=YOUR_DOMAIN + '/cancel/',
         )
         return JsonResponse({
@@ -238,4 +235,12 @@ def stripe_webhook(request):
             recipient_list=[custromer_email],
             from_email='test1486745321@gmail.com'
         )
-    return HttpResponse(status=200)
+
+    response = HttpResponse(status=200)
+    return response
+
+def delete_user_cookies(request, order_id):
+    response = HttpResponseRedirect(reverse('order', args=(order_id,)))
+    response.delete_cookie('order_id')
+    response.delete_cookie('device')
+    return response

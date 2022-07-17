@@ -61,6 +61,13 @@ function uuidv4() {
   });
 }
 
+function uuidv2() {
+  return 'xxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
 
 
 
@@ -72,7 +79,7 @@ if (device == null || device == undefined){
 }
 
 if (order_id == null || order_id == undefined){
-  order_id = uuidv4()
+  order_id = uuidv2()
 }
 
 document.cookie = 'device=' + device + ";domain=;path=/"
