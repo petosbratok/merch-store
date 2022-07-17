@@ -2,29 +2,40 @@
 {% load static %}
 
 {% block links %}
+<link rel="stylesheet" href="{% static 'css/order.css' %}">
 {% endblock %}
 
 {% block content %}
-<div style="margin: auto; font-size: 1.25em;"class="order">
+<div class="order">
   <h1>Order info</h1>
-  <p>Your order id: {{ order.order_id }}</p>
-  <ul>
+  <p class="segment-key">Order id: <span class="segment-value">{{ order.order_id }}</span></p>
+  <div class="segment">
+    <p class="segment-title">Contacts</p>
+    <p class="segment-key">Full name: <span class="segment-value">{{ order.delivery_info.full_name }}</span></p>
+    <p class="segment-key">Email: <span class="segment-value">{{ order.delivery_info.email }}</span></p>
+    <p class="segment-key">Phone: <span class="segment-value">{{ order.delivery_info.phone }}</span></p>
+  </div>
+  <div class="segment">
+    <p class="segment-title">Delevery info</p>
+    <p class="segment-key">Country: <span class="segment-value">{{ order.delivery_info.country }}</span></p>
+    <p class="segment-key">City: <span class="segment-value">{{ order.delivery_info.city }}</span></p>
+    <p class="segment-key">Address: <span class="segment-value">{{ order.delivery_info.address }}</span></p>
+    <p class="segment-key">Zip: <span class="segment-value">{{ order.delivery_info.zip }}</span></p>
+  </div>
+  <div class="segment">
+    <p class="segment-title">Order info</p>
     {% for item in order.get_cart_items %}
-    <li class="item" id="item_{{ item.id }}"><div class="cart-item">
-            <span class="title">{{ item.product.title }}</span>
-            <span class="type">{{ item.product.type.type }}</span>
-            <span class="size">Size: <span class="size-value">{{ item.size }}</span></span>
-            <span class="price"><span class="dollar-sign-item">$</span>{{ item.product.price }}</span>
-    </div></li>
+    <p class="segment-key"><span class="segment-value">{{ item.product.title }} {{ item.product.type.type }}  /   Size: {{ item.size }}  /   Price: ${{ item.product.price }}  /   Quantity: {{ item.quantity }}</span></p>
     {% endfor %}
-    <li>
-      {% if order.transaction_id == '9999999999999999' %}
-      <p>Order have not been paid yet</p>
-      {% else %}
-      <p>Transaction complete</p>
-      <p>Transaction id: {{ order.transaction_id }}</p>
-      {% endif %}
-    </li>
-  </ul>
+  </div>
+  <div class="segment">
+    <p class="segment-title">Transaction details</p>
+    {% if order.transaction_id == '9999999999999999' %}
+    <p class="segment-key">Transaction status: <span class="segment-value">incomplete</span></p>
+    {% else %}
+    <p class="segment-key">Transaction status: <span class="segment-value">complete</span></p>
+    <p class="segment-key">Transaction id: <span class="segment-value">{{ order.transaction_id }}</span></p>
+    {% endif %}
+  </div>
 </div>
 {% endblock %}

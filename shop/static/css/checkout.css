@@ -42,7 +42,7 @@ button{
   border-width: 1px;
   display: block;
   height: 2.5em;
-  width: 200px;
+  padding: 0 50px;
   text-align: center;
   margin-top: 30px;
   font-size: 1.25em;
@@ -81,16 +81,20 @@ button:hover{
 }
 .label-container{
   width: 100%;
-  padding: 0 auto;
   margin-bottom: 15px;
-  height: 2.5em;
-
+  height: 50px;
+  display: flex;
+  justify-content: flex-start;
 }
 h3{
-  font-weight: 500;
+  display: block;
+  padding: 0 50px !important;
+  text-align: center;
+  font-size: 1.25em;
+  font-weight: 400;
   letter-spacing: 1px;
-  /* font-family: Oswald; */
-  width: 200px;
+  width: auto;
+  line-height: 50px;
   background: black;
   color: white;
   padding: 10px;

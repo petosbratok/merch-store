@@ -1,0 +1,20 @@
+.order{
+  background: white;
+  color: black;
+  width: 60%;
+  font-size: 1.25em;
+  margin: 0 auto;
+  padding: 30px 45px;
+  border-radius: 15px;
+}
+.segment{
+  margin-top: 15px;
+}
+.segment-title{
+  font-weight: 500;
+  font-size: 1.25em;
+  margin-bottom: 2px;
+}
+.segment-value{
+  font-weight: 500;
+}

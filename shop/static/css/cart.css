@@ -58,7 +58,7 @@ ul{
   margin-top: 10px;
 }
 .size-value{
-  text-transform: capitalize;
+  text-transform: uppercase;
   font-weight: 500;
 }
 .dollar-sign-item{

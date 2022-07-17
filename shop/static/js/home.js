@@ -53,14 +53,6 @@ function getCookie(name) {
     return cookieValue;
 }
 
-
-function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-}
-
 function uuidv2() {
   return 'xxxxxxxx'.replace(/[xy]/g, function(c) {
     var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -71,18 +63,12 @@ function uuidv2() {
 
 
 
-let device = getCookie('device')
 let order_id = getCookie('order_id')
-
-if (device == null || device == undefined){
-  device = uuidv4()
-}
 
 if (order_id == null || order_id == undefined){
   order_id = uuidv2()
 }
 
-document.cookie = 'device=' + device + ";domain=;path=/"
 document.cookie = 'order_id=' + order_id + ";domain=;path=/"
 
 function scrollSmoothTo(elementId) {
