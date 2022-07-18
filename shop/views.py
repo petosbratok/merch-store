@@ -237,11 +237,9 @@ def stripe_webhook(request):
                     new_stock += stock_i_new
                 else:
                     new_stock += stock_i + ';'
-            print(f'new_stock: {new_stock}')
             product.stock = new_stock[:-1:]
             product.save()
 
-        print('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii')
         order = Order.objects.get(order_id=order_id)
         order.transaction_id = transaction_id
         order.save()

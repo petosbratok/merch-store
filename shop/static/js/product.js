@@ -7,6 +7,7 @@ function choose_size(size){
     if (this_.attr('id') == ("size_"+size)){
       this_.addClass("chosen")
       $('#input-size').val(size)
+      $('.quantity').attr("max", this_.val())
     }
   });
 }

@@ -59,6 +59,12 @@ img{
 .size-btn:hover{
   color: white;
 }
+.out-of-stock{
+  pointer-events: none;
+  border-color: #2B2B2B !important;
+  background-color: #2B2B2B;
+  color: #E1E1E1;
+}
 .chosen{
   color: white;
   transition-duration: 0.2s;

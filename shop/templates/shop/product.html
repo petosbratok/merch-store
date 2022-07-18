@@ -17,12 +17,16 @@
 			<p class="price">${{product.price}}</p>
 			<div class="size-btn-container">
 				{% with product.stock|split:";" as stock %}
-				{% for stock_item in stock %}
-				{% with stock_item|split:"_" as size_amount %}
-				<button type="button" id="size_{{size_amount.0}}" onclick="choose_size('{{size_amount.0}}')" class="size-btn size">{{size_amount.0}}
-					{% endwith %}
+					{% for stock_item in stock %}
+						{% with stock_item|split:"_" as size_amount %}
+							{% if size_amount.1 == "0" %}
+								<button class="size-btn size out-of-stock">{{size_amount.0}}</button>
+							{% else %}
+								<button type="button" id="size_{{size_amount.0}}" onclick="choose_size('{{size_amount.0}}')" class="size-btn size" value="{{size_amount.1}}">{{size_amount.0}}</button>
+							{% endif %}
+						{% endwith %}
 					{% endfor %}
-					{% endwith %}
+				{% endwith %}
 				</div>
 			<form method="POST" action="{% url 'product' product.id %}">
 				<div class="number-input" >
