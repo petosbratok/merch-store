@@ -154,6 +154,7 @@ class CreateCheckoutSessionView(View):
         YOUR_DOMAIN = "http://127.0.0.1:8000"
         line_items = []
         order_items = OrderItem.objects.all().filter(order=order)
+        stock_changes = ""
         for order_item in order_items:
             line_items.append({
                 'price_data': {
@@ -166,12 +167,14 @@ class CreateCheckoutSessionView(View):
                 },
                 'quantity': order_item.quantity,
             })
+            stock_changes += f'{order_item.product.id}_{order_item.size}_ {order_item.quantity}/'
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=line_items,
             metadata={
                 "product_id": str([order_item.product.id for order_item in order_items]),
                 "order_id": order_id,
+                "stock_changes": str(stock_changes)
             },
             mode='payment',
             success_url=f'{YOUR_DOMAIN}/deletecookies/{order_id}',
@@ -185,7 +188,7 @@ class CreateCheckoutSessionView(View):
 def order(request, pk):
     order = Order.objects.get(order_id=pk)
     context = {
-        'order': order
+        'order': order,
     }
 
     return render(request, 'shop/order.html', context)
@@ -217,9 +220,28 @@ def stripe_webhook(request):
     if event['type'] == 'checkout.session.completed':
         print("Payment was successful.")
         session = event['data']['object']
+        print(session)
         custromer_email = session["customer_details"]["email"]
         transaction_id = session["payment_intent"]
         order_id = session["metadata"]["order_id"]
+        stock_changes = session["metadata"]["stock_changes"]
+        stock_changes_split = [stock_change.split("_") for stock_change in stock_changes.split("/")]
+        stock_changes_split.pop(-1)
+        for stock_change in stock_changes_split:
+            product = Good.objects.get(id=stock_change[0])
+            stock = product.stock.split(";")
+            new_stock = ''
+            for stock_i in stock:
+                if stock_i.split("_")[0] == stock_change[1]:
+                    stock_i_new = f'{stock_i.split("_")[0]}_{int(stock_i.split("_")[1])-int(stock_change[2])};'
+                    new_stock += stock_i_new
+                else:
+                    new_stock += stock_i + ';'
+            print(f'new_stock: {new_stock}')
+            product.stock = new_stock[:-1:]
+            product.save()
+
+        print('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii')
         order = Order.objects.get(order_id=order_id)
         order.transaction_id = transaction_id
         order.save()

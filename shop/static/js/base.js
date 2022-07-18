@@ -14,9 +14,20 @@ function getCookie(name) {
     return cookieValue;
 }
 
+function uuidv2() {
+  return 'ms-1xxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
+
+
+
 let order_id = getCookie('order_id')
 
 if (order_id == null || order_id == undefined){
-  order_id = uuidv4()
-  document.cookie = 'order_id=' + order_id + ";domain=;path=/"
+  order_id = uuidv2()
 }
+
+document.cookie = 'order_id=' + order_id + ";domain=;path=/"

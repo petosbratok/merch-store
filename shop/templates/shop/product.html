@@ -16,7 +16,7 @@
 			<p class="type">{{product.type}}</p>
 			<p class="price">${{product.price}}</p>
 			<div class="size-btn-container">
-				{% with product.stock|split:" " as stock %}
+				{% with product.stock|split:";" as stock %}
 				{% for stock_item in stock %}
 				{% with stock_item|split:"_" as size_amount %}
 				<button type="button" id="size_{{size_amount.0}}" onclick="choose_size('{{size_amount.0}}')" class="size-btn size">{{size_amount.0}}

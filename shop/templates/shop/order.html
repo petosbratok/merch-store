@@ -25,7 +25,7 @@
   <div class="segment">
     <p class="segment-title">Order info</p>
     {% for item in order.get_cart_items %}
-    <p class="segment-key"><span class="segment-value">{{ item.product.title }} {{ item.product.type.type }}  /   Size: {{ item.size }}  /   Price: ${{ item.product.price }}  /   Quantity: {{ item.quantity }}</span></p>
+    <p class="segment-key"><span class="segment-value">{{ item.product.title }}</span> / Size: <span style="text-transform: uppercase"class="segment-value">{{ item.size }}</span> / Quantity: <span class="segment-value">{{item.quantity}}</span> / Price: <span class="segment-value">${{item.product.price}}</span></p>
     {% endfor %}
   </div>
   <div class="segment">
@@ -36,6 +36,7 @@
     <p class="segment-key">Transaction status: <span class="segment-value">complete</span></p>
     <p class="segment-key">Transaction id: <span class="segment-value">{{ order.transaction_id }}</span></p>
     {% endif %}
+    <p class="segment-key">Total: <span class="segment-value">${{order.get_cart_total}}</span></p>
   </div>
 </div>
 {% endblock %}

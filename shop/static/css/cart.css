@@ -147,6 +147,7 @@ ul{
   text-transform: uppercase;
 }
 button{
+  border-width: 1px;
   border-radius: 15px;
 }
 .dollar-sign{
