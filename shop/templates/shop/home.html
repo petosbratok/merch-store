@@ -3,6 +3,7 @@
 
 {% block links %}
   <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css-media/home-media.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -29,11 +30,6 @@
           <img src="{{ item.photo.url }}" alt="photo">
           <span type="{{ item.type }}" class="item-title">{{ item.title }}</span>
           <span class="item-price">${{ item.price }}</span>
-          {% if item.stock == 0 %}
-          <span class="item-sold-out">sold out</span>
-          {% else %}
-          <span class="item-sold-out"></span>
-          {% endif %}
         </a>
       </p>
     </li>

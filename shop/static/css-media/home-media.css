@@ -1,0 +1,48 @@
+@media (max-width: 1100px){
+  main{
+    font-size: 1.1em;
+  }
+  .shop{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .filter{
+    margin-top: 50px;
+    margin-left: 50px;
+    position: static !important;
+  }
+  .goods{
+    margin: 50px !important;
+    padding: 0 !important;
+  }
+  .goods li{
+    width: 100% !important;
+  }
+  .goods img{
+    height: 45vw;
+  }
+  .intro p{
+    font-size: 3em;
+  }
+  .intro a{
+    font-size: 2em;
+  }
+}
+@media (max-width: 600px){
+  .filter{
+    margin-top: 30px;
+    margin-left: 30px;
+    position: static !important;
+  }
+  .goods{
+    margin: 30px !important;
+    padding: 0 !important;
+  }
+  .goods img{
+    height: 65vw;
+  }
+  .intro p{
+    padding-bottom: 30vh;
+  }
+}

@@ -93,7 +93,9 @@ input[type=number]::-webkit-outer-spin-button {
 .number-input * {
   box-sizing: border-box;
 }
-
+.quantity{
+  width: 5rem;
+}
 .number-input button {
   outline:none;
   -webkit-appearance: none;

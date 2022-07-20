@@ -1,0 +1,21 @@
+@media (max-width: 600px){
+  main{
+    padding: 0;
+  }
+  form{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .label-container, .button-container{
+    justify-content: center;
+    /* width: 100%; */
+  }
+  .label-container h3, .button-container button{
+    width: 300px;
+    max-width: 70vw;
+    padding: 0 20px !important;
+  }
+  .control-group{
+    width: 100%;
+  }
+}

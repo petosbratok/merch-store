@@ -26,7 +26,7 @@ SECRET_KEY = '066^n&1n5q+gdm-sgqy_q4_8cbnf0&iavx$ecz#s1v+j_qf0o4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*',]
 
 
 # Application definition
@@ -148,4 +148,3 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'test1486745321@gmail.com'
 EMAIL_HOST_PASSWORD = 'jfnizcckkpgdhgjk'
-#add env variable
