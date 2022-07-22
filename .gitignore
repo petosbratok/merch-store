@@ -1,2 +1,9 @@
 merch_store/.env
 venv
+data
+staticfiles
+__pycache__/
+*.py[cod]
+
+*.log
+*.pot
