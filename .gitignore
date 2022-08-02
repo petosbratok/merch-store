@@ -4,6 +4,6 @@ data
 staticfiles
 __pycache__/
 *.py[cod]
-
+dumpdata.json
 *.log
 *.pot
