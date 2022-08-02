@@ -4,7 +4,7 @@
 
 ## About
 Merch store is a fully functional e-commerce website for your clothes <br>
-Link: [merch-store1.pythonanywhere.com](http://merch-store1.pythonanywhere.com) (**adblock recommended**)
+Link: [merchstore.pythonanywhere.com](http://merchstore.pythonanywhere.com) (**adblock recommended**)
 
 Implemented features:
 - List of all items on sale. Items info stored in a database.
